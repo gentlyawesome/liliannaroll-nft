@@ -5,7 +5,6 @@
   }
 
   ;[...Array(10).keys()].map(async (num) => {
-    console.log(num)
     const response = await fetch(`https://bafybeidiw2sxsdy3f5rlg77dqi7rg3bheni2xunl2sylifrdxtwfxvjklq.ipfs.dweb.link/${num}.json`)
     const fetchData = await response.json()
 

@@ -6,7 +6,7 @@
 
   const header = document.getElementById("header")
   header.innerHTML += `
-  <button class='mx-auto mt-6 border-2 border=[#ccc] rounded-xl cursor-pointer px-20 py-5' id='connect'>Connect to Metamask</button>
+  <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold' id="connect">Connect To Metamask</button>
   <br /><span class="text-red-300" id="error">&nbsp;</span>
   `
 

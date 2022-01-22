@@ -7,7 +7,7 @@
   const header = document.getElementById("header")
   header.innerHTML += `
   <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold' id="connect">Connect To Metamask</button>
-  <br /><span class="text-red-300" id="error">&nbsp;</span>
+  <br /><span class="text-red-400" id="error">&nbsp;</span>
   `
 
   const connect = document.getElementById("connect")
@@ -81,6 +81,13 @@
     const qty = web3.utils.hexToNumberString(size) - web3.utils.hexToNumberString(supply);
     quantity.innerHTML = `${qty} left`
 
+    if(qty < 1){
+      button.innerHTML = "Sold Out"
+      button.classList.remove('bg-blue-400')
+      button.classList.add('bg-gray-400')
+      button.disable(true)
+    }
+
     button.addEventListener('click', async (e) => {
       e.preventDefault()
       button.disable(true)
@@ -131,8 +138,24 @@
         <li class="price">?? Matic</li>
         <li class="qty">?? Left</li>
       </ul>
-      <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold'>Buy</button>
+      <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold buy-button'>Buy</button>
     </div>
     `
+  })
+
+  const buyButtons = Array.from(document.getElementsByClassName("buy-button"));
+  buyButtons.forEach(async (buyBtn, index) => {
+    buyBtn.addEventListener('click', async (btn) => {
+      buyButtons[index].setAttribute('disabled', true)
+      const { web3, connected, message, account, contract } = await install()
+      if (!connected) {
+        error.innerHTML = message
+        return connect.disable(false)
+      }
+
+      for (let i = 0; i < 15; i++) {
+        initBuyBox(i + 1, web3, account, contract)
+      }
+    })
   })
 })()

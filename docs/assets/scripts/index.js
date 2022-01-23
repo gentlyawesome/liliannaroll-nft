@@ -88,6 +88,8 @@
       button.disable(true)
     }
 
+    button.removeEventListener("click", perBuyFunction)
+
     button.addEventListener("click", async (e) => {
       e.preventDefault()
       button.disable(true)
@@ -139,9 +141,7 @@
   })
 
   const buyButtons = Array.from(document.getElementsByClassName("buy-button"))
-  buyButtons.forEach(async (buyBtn, index) => {
-    buyBtn.addEventListener("click", async (btn) => {
-      buyButtons[index].setAttribute("disabled", true)
+  const perBuyFunction = async (btn) => {
       const { web3, connected, message, account, contract } = await install()
       if (!connected) {
         error.innerHTML = message
@@ -151,7 +151,12 @@
       for (let i = 0; i < 15; i++) {
         initBuyBox(i + 1, web3, account, contract)
       }
-    })
+  }
+  buyButtons.forEach(async (buyBtn, index) => {
+    buyBtn.addEventListener("click", perBuyFunction)
+    // buyBtn.addEventListener("click", async (btn) => {
+    //   buyButtons[index].setAttribute("disabled", true)
+    // })
   })
 
   const { web3, connected, message, account, contract } = await install()

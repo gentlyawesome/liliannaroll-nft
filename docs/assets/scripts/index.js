@@ -2,7 +2,7 @@
   const fetchData = await fetch("./assets/data/collectibles.json")
   const collectibles = await fetchData.json()
 
-  const contractJSON = JSON.parse(document.getElementById('contract').innerText)
+  const contractJSON = JSON.parse(document.getElementById("contract").innerText)
 
   const header = document.getElementById("header")
   header.innerHTML += `
@@ -60,78 +60,82 @@
   }
 
   const initBuyBox = async (index, web3, account, contract) => {
-    const ether = 1000000000000000000;
+    const ether = 1000000000000000000
     const box = document.getElementById(`item-${index}`)
-    const button = box.getElementsByTagName('button')[0]
-    const quantity = box.getElementsByClassName('qty')[0]
-    const price = box.getElementsByClassName('price')[0]
+    const button = box.getElementsByTagName("button")[0]
+    const quantity = box.getElementsByClassName("qty")[0]
+    const price = box.getElementsByClassName("price")[0]
 
-    button.disable = function(disabled) {
-      button.setAttribute('disabled', disabled)
+    button.disable = function (disabled) {
+      button.setAttribute("disabled", disabled)
       button.disabled = disabled
       return disabled
     }
 
     //get cost
-    const cost = await read(contract, account, 'collectionOffer', index)
-    price.innerHTML = `${web3.utils.hexToNumberString(cost)/ether} MATIC`
+    const cost = await read(contract, account, "collectionOffer", index)
+    price.innerHTML = `${web3.utils.hexToNumberString(cost) / ether} MATIC`
     //get size and supply
-    const size = await read(contract, account, 'collectionSize', index)
-    const supply = await read(contract, account, 'collectionSupply', index)
-    const qty = web3.utils.hexToNumberString(size) - web3.utils.hexToNumberString(supply);
+    const size = await read(contract, account, "collectionSize", index)
+    const supply = await read(contract, account, "collectionSupply", index)
+    const qty = web3.utils.hexToNumberString(size) - web3.utils.hexToNumberString(supply)
     quantity.innerHTML = `${qty} left`
 
-    if(qty < 1){
+    if (qty < 1) {
       button.innerHTML = "Sold Out"
-      button.classList.remove('bg-blue-400')
-      button.classList.add('bg-gray-400')
+      button.classList.remove("bg-blue-400")
+      button.classList.add("bg-gray-400")
       button.disable(true)
     }
 
-    button.addEventListener('click', async (e) => {
+    button.addEventListener("click", async (e) => {
       e.preventDefault()
       button.disable(true)
-      let txHash = ''
+      let txHash = ""
       try {
-        txHash = await write(contract, account, 'buy', cost, index)
-      } catch(e) {
+        txHash = await write(contract, account, "buy", cost, index)
+      } catch (e) {
         error.innerHTML = e.message
         return button.disable(false)
       }
     })
   }
 
-  const read = async(contract, account, method, ...args) => {
+  const read = async (contract, account, method, ...args) => {
     return await window.ethereum.request({
       method: "eth_call",
-      params: [{
-        to: contractJSON.address,
-        from: account,
-        data: contract.methods[method](...args).encodeABI(),
-      }],
+      params: [
+        {
+          to: contractJSON.address,
+          from: account,
+          data: contract.methods[method](...args).encodeABI(),
+        },
+      ],
     })
   }
 
-  const write = async(contract, account, method, value, ...args) => {
+  const write = async (contract, account, method, value, ...args) => {
     const params = {
       to: contractJSON.address,
       from: account,
       value: String(value),
       data: contract.methods[method](...args).encodeABI(),
     }
-    
+
     if (value) params.value = String(value)
-    
+
     return await window.ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [params]
+      method: "eth_sendTransaction",
+      params: [params],
     })
   }
 
   const container = document.getElementById("nft-container")
   collectibles.map(async (collectible, index) => {
     container.innerHTML += `
-    <div class='overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  mt-10 basis-1/6 text-center rounded-xl shadow-lg hover:shadow-2xl' id="item-${index + 1}"> 
+    <div class='overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  mt-10 basis-1/6 text-center rounded-xl shadow-lg hover:shadow-2xl' id="item-${
+      index + 1
+    }"> 
       <img class="w-full rounded-t-xl" src=${collectible.url} alt=${collectible.name} />
       <h1 class='mt-4 text-xl font-semibold'>${collectible.name}</h1>
       <ul class="flex flex-row justify-evenly mt-4 leading-relaxed">
@@ -143,10 +147,10 @@
     `
   })
 
-  const buyButtons = Array.from(document.getElementsByClassName("buy-button"));
+  const buyButtons = Array.from(document.getElementsByClassName("buy-button"))
   buyButtons.forEach(async (buyBtn, index) => {
-    buyBtn.addEventListener('click', async (btn) => {
-      buyButtons[index].setAttribute('disabled', true)
+    buyBtn.addEventListener("click", async (btn) => {
+      buyButtons[index].setAttribute("disabled", true)
       const { web3, connected, message, account, contract } = await install()
       if (!connected) {
         error.innerHTML = message
@@ -158,4 +162,16 @@
       }
     })
   })
+
+  const { web3, connected, message, account, contract } = await install()
+  if (!connected) {
+    error.innerHTML = message
+    return connect.disable(false)
+  }
+
+  if (connected) {
+    for (let i = 0; i < 15; i++) {
+      initBuyBox(i + 1, web3, account, contract)
+    }
+  }
 })()

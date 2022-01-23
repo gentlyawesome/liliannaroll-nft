@@ -74,11 +74,11 @@
 
     //get cost
     const cost = await read(contract, account, "collectionOffer", index)
-    price.innerHTML = `${web3.utils.hexToNumberString(cost) / ether} MATIC`
+    price.innerHTML = `${cost / ether} MATIC`
     //get size and supply
     const size = await read(contract, account, "collectionSize", index)
     const supply = await read(contract, account, "collectionSupply", index)
-    const qty = web3.utils.hexToNumberString(size) - web3.utils.hexToNumberString(supply)
+    const qty = size - supply;
     quantity.innerHTML = `${qty} left`
 
     if (qty < 1) {
@@ -93,7 +93,7 @@
       button.disable(true)
       let txHash = ""
       try {
-        txHash = await write(contract, account, "buy", cost, index)
+        txHash = await write(contract, account, "buy", `${web3.utils.toHex(cost)}`, index)
       } catch (e) {
         error.innerHTML = e.message
         return button.disable(false)
@@ -102,16 +102,7 @@
   }
 
   const read = async (contract, account, method, ...args) => {
-    return await window.ethereum.request({
-      method: "eth_call",
-      params: [
-        {
-          to: contractJSON.address,
-          from: account,
-          data: contract.methods[method](...args).encodeABI(),
-        },
-      ],
-    })
+    return await contract.methods[method](...args).call();
   }
 
   const write = async (contract, account, method, value, ...args) => {
@@ -169,9 +160,7 @@
     return connect.disable(false)
   }
 
-  if (connected) {
-    for (let i = 0; i < 15; i++) {
-      initBuyBox(i + 1, web3, account, contract)
-    }
+  for (let i = 0; i < 15; i++) {
+    initBuyBox(i + 1, web3, account, contract)
   }
 })()

@@ -3,6 +3,27 @@
   const collectibles = await fetchData.json()
 
   const contractJSON = JSON.parse(document.getElementById("contract").innerText)
+  const initWeb3 = new Web3(window.ethereum)
+  const initContract = new initWeb3.eth.Contract(contractJSON.abi, contractJSON.address);
+
+  const container = document.getElementById("nft-container")
+  collectibles.map(async (collectible, index) => {
+    container.innerHTML += `
+    <div class='overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  mt-10 basis-1/6 text-center rounded-xl shadow-lg hover:shadow-2xl' id="item-${
+      index + 1
+    }"> 
+      <img class="w-full rounded-t-xl" src=${collectible.url} alt=${collectible.name} />
+      <h1 class='mt-4 text-xl font-semibold'>${collectible.name}</h1>
+      <ul class="flex flex-row justify-evenly mt-4 leading-relaxed">
+        <li class="price">?? Matic</li>
+        <li class="qty">?? Left</li>
+      </ul>
+      <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold buy-button'>Buy</button>
+    </div>
+    `
+  })
+  
+
 
   const header = document.getElementById("header")
   header.innerHTML += `
@@ -105,6 +126,14 @@
 
   const read = async (contract, account, method, ...args) => {
     return await contract.methods[method](...args).call();
+    // return await window.ethereum.request({
+    //   method: "eth_call",
+    //   params: [{
+    //     to: contractJSON.address,
+    //     // from: account,
+    //     data: contract.methods[method](...args).encodeABI(),
+    //   }],
+    // })
   }
 
   const write = async (contract, account, method, value, ...args) => {
@@ -123,23 +152,6 @@
     })
   }
 
-  const container = document.getElementById("nft-container")
-  collectibles.map(async (collectible, index) => {
-    container.innerHTML += `
-    <div class='overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  mt-10 basis-1/6 text-center rounded-xl shadow-lg hover:shadow-2xl' id="item-${
-      index + 1
-    }"> 
-      <img class="w-full rounded-t-xl" src=${collectible.url} alt=${collectible.name} />
-      <h1 class='mt-4 text-xl font-semibold'>${collectible.name}</h1>
-      <ul class="flex flex-row justify-evenly mt-4 leading-relaxed">
-        <li class="price">?? Matic</li>
-        <li class="qty">?? Left</li>
-      </ul>
-      <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold buy-button'>Buy</button>
-    </div>
-    `
-  })
-
   const buyButtons = Array.from(document.getElementsByClassName("buy-button"))
   const perBuyFunction = async (btn) => {
       const { web3, connected, message, account, contract } = await install()
@@ -154,9 +166,6 @@
   }
   buyButtons.forEach(async (buyBtn, index) => {
     buyBtn.addEventListener("click", perBuyFunction)
-    // buyBtn.addEventListener("click", async (btn) => {
-    //   buyButtons[index].setAttribute("disabled", true)
-    // })
   })
 
   const { web3, connected, message, account, contract } = await install()
@@ -168,4 +177,5 @@
   for (let i = 0; i < 15; i++) {
     initBuyBox(i + 1, web3, account, contract)
   }
+
 })()

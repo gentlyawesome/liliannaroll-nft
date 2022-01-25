@@ -3,8 +3,6 @@
   const collectibles = await fetchData.json()
 
   const contractJSON = JSON.parse(document.getElementById("contract").innerText)
-  const initWeb3 = new Web3(window.ethereum)
-  const initContract = new initWeb3.eth.Contract(contractJSON.abi, contractJSON.address);
 
   const container = document.getElementById("nft-container")
   collectibles.map(async (collectible, index) => {
@@ -15,20 +13,18 @@
       <img class="w-full rounded-t-xl" src=${collectible.url} alt=${collectible.name} />
       <h1 class='mt-4 text-xl font-semibold'>${collectible.name}</h1>
       <ul class="flex flex-row justify-evenly mt-4 leading-relaxed">
-        <li class="price">?? Matic</li>
-        <li class="qty">?? Left</li>
+        <li class="price">${collectible.price} Matic</li>
+        <li class="qty">${collectible.left} Left</li>
       </ul>
       <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold buy-button'>Buy</button>
     </div>
     `
   })
-  
-
 
   const header = document.getElementById("header")
   header.innerHTML += `
   <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold' id="connect">Connect To Metamask</button>
-  <br /><span class="text-red-400" id="error">&nbsp;</span>
+  <br /><span class="text-red-700" id="error">&nbsp;</span>
   `
 
   const connect = document.getElementById("connect")
@@ -43,7 +39,7 @@
     const { web3, connected, message, account, contract } = await install()
     if (!connected) {
       if(message === "Please change network to Polygon (MATIC)."){
-        error.innerHTML = `Please change network to <a class="underline text-blue-400" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
+        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
       }else{
         error.innerHTML = message
       }
@@ -59,7 +55,7 @@
     if (!window.ethereum?.isMetaMask) {
       return {
         connected: false,
-        message: 'Please install <a href="https://metamask.io/" target="_blank">MetaMask</a>',
+        message: 'Please install <a class="underline cursor-pointer text-blue-400 font-bold" href="https://metamask.io/" target="_blank">MetaMask</a>',
       }
     }
     try {
@@ -104,7 +100,7 @@
     const size = await read(contract, account, "collectionSize", index)
     const supply = await read(contract, account, "collectionSupply", index)
     const qty = size - supply;
-    quantity.innerHTML = `${qty} left`
+    quantity.innerHTML = `${qty} Left`
 
     if (qty < 1) {
       button.innerHTML = "Sold Out"
@@ -175,7 +171,7 @@
   const { web3, connected, message, account, contract } = await install()
   if (!connected) {
       if(message === "Please change network to Polygon (MATIC)."){
-        error.innerHTML = `Please change network to <a class="underline text-blue-400" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
+        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
       }else{
         error.innerHTML = message
       }

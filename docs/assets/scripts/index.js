@@ -4,10 +4,27 @@
 
   const contractJSON = JSON.parse(document.getElementById("contract").innerText)
 
+  const container = document.getElementById("nft-container")
+  collectibles.map(async (collectible, index) => {
+    container.innerHTML += `
+    <div class='overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  mt-10 basis-1/6 text-center rounded-xl shadow-lg hover:shadow-2xl' id="item-${
+      index + 1
+    }"> 
+      <img class="w-full rounded-t-xl" src=${collectible.url} alt=${collectible.name} />
+      <h1 class='mt-4 text-xl font-semibold'>${collectible.name}</h1>
+      <ul class="flex flex-row justify-evenly mt-4 leading-relaxed">
+        <li class="price">${collectible.price} Matic</li>
+        <li class="qty">${collectible.left} Left</li>
+      </ul>
+      <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold buy-button'>Buy</button>
+    </div>
+    `
+  })
+
   const header = document.getElementById("header")
   header.innerHTML += `
   <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold' id="connect">Connect To Metamask</button>
-  <br /><span class="text-red-400" id="error">&nbsp;</span>
+  <br /><span class="text-red-700" id="error">&nbsp;</span>
   `
 
   const connect = document.getElementById("connect")
@@ -21,7 +38,11 @@
     connect.disable(true)
     const { web3, connected, message, account, contract } = await install()
     if (!connected) {
-      error.innerHTML = message
+      if(message === "Please change network to Polygon (MATIC)."){
+        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
+      }else{
+        error.innerHTML = message
+      }
       return connect.disable(false)
     }
 
@@ -34,7 +55,7 @@
     if (!window.ethereum?.isMetaMask) {
       return {
         connected: false,
-        message: 'Please install <a href="https://metamask.io/" target="_blank">MetaMask</a>',
+        message: 'Please install <a class="underline cursor-pointer text-blue-400 font-bold" href="https://metamask.io/" target="_blank">MetaMask</a>',
       }
     }
     try {
@@ -79,7 +100,7 @@
     const size = await read(contract, account, "collectionSize", index)
     const supply = await read(contract, account, "collectionSupply", index)
     const qty = size - supply;
-    quantity.innerHTML = `${qty} left`
+    quantity.innerHTML = `${qty} Left`
 
     if (qty < 1) {
       button.innerHTML = "Sold Out"
@@ -105,6 +126,14 @@
 
   const read = async (contract, account, method, ...args) => {
     return await contract.methods[method](...args).call();
+    // return await window.ethereum.request({
+    //   method: "eth_call",
+    //   params: [{
+    //     to: contractJSON.address,
+    //     // from: account,
+    //     data: contract.methods[method](...args).encodeABI(),
+    //   }],
+    // })
   }
 
   const write = async (contract, account, method, value, ...args) => {
@@ -123,23 +152,6 @@
     })
   }
 
-  const container = document.getElementById("nft-container")
-  collectibles.map(async (collectible, index) => {
-    container.innerHTML += `
-    <div class='overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  mt-10 basis-1/6 text-center rounded-xl shadow-lg hover:shadow-2xl' id="item-${
-      index + 1
-    }"> 
-      <img class="w-full rounded-t-xl" src=${collectible.url} alt=${collectible.name} />
-      <h1 class='mt-4 text-xl font-semibold'>${collectible.name}</h1>
-      <ul class="flex flex-row justify-evenly mt-4 leading-relaxed">
-        <li class="price">?? Matic</li>
-        <li class="qty">?? Left</li>
-      </ul>
-      <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold buy-button'>Buy</button>
-    </div>
-    `
-  })
-
   const buyButtons = Array.from(document.getElementsByClassName("buy-button"))
   const perBuyFunction = async (btn) => {
       const { web3, connected, message, account, contract } = await install()
@@ -154,18 +166,20 @@
   }
   buyButtons.forEach(async (buyBtn, index) => {
     buyBtn.addEventListener("click", perBuyFunction)
-    // buyBtn.addEventListener("click", async (btn) => {
-    //   buyButtons[index].setAttribute("disabled", true)
-    // })
   })
 
   const { web3, connected, message, account, contract } = await install()
   if (!connected) {
-    error.innerHTML = message
+      if(message === "Please change network to Polygon (MATIC)."){
+        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
+      }else{
+        error.innerHTML = message
+      }
     return connect.disable(false)
   }
 
   for (let i = 0; i < 15; i++) {
     initBuyBox(i + 1, web3, account, contract)
   }
+
 })()

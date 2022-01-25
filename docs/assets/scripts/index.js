@@ -42,7 +42,11 @@
     connect.disable(true)
     const { web3, connected, message, account, contract } = await install()
     if (!connected) {
-      error.innerHTML = message
+      if(message === "Please change network to Polygon (MATIC)."){
+        error.innerHTML = `Please change network to <a class="underline text-blue-400" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
+      }else{
+        error.innerHTML = message
+      }
       return connect.disable(false)
     }
 
@@ -170,7 +174,11 @@
 
   const { web3, connected, message, account, contract } = await install()
   if (!connected) {
-    error.innerHTML = message
+      if(message === "Please change network to Polygon (MATIC)."){
+        error.innerHTML = `Please change network to <a class="underline text-blue-400" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
+      }else{
+        error.innerHTML = message
+      }
     return connect.disable(false)
   }
 

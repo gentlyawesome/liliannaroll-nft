@@ -7,16 +7,17 @@
   const container = document.getElementById("nft-container")
   collectibles.map(async (collectible, index) => {
     container.innerHTML += `
-    <div class='overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  mt-10 basis-1/6 text-center rounded-xl shadow-lg hover:shadow-2xl' id="item-${
+    <div class='flex flex-col w-full overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  m-10 text-center rounded-xl shadow-lg hover:shadow-2xl sm:w-64' id="item-${
       index + 1
     }"> 
       <img class="w-full rounded-t-xl" src=${collectible.url} alt=${collectible.name} />
       <h1 class='mt-4 text-xl font-semibold'>${collectible.name}</h1>
       <ul class="flex flex-row justify-evenly mt-4 leading-relaxed">
-        <li class="price">${collectible.price} Matic</li>
-        <li class="qty">${collectible.left} Left</li>
+        <li class="price text-gray-600">${collectible.price} Matic</li>
+        <li class="qty text-gray-600">${collectible.left} Left</li>
       </ul>
-      <button class='mb-4 bg-blue-400 mt-6 text-white rounded-xl cursor-pointer px-20 py-5 font-semibold buy-button'>Buy</button>
+      <span class="bg-white text-white font-bold py-2" id="success-${index + 1}">&nbsp;</span>
+      <button class='bg-blue-400 text-white rounded-b-xl cursor-pointer px-20 py-5 font-semibold buy-button hover:bg-blue-500'>Buy</button>
     </div>
     `
   })
@@ -38,9 +39,9 @@
     connect.disable(true)
     const { web3, connected, message, account, contract } = await install()
     if (!connected) {
-      if(message === "Please change network to Polygon (MATIC)."){
-        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
-      }else{
+      if (message === "Please change network to Polygon (MATIC).") {
+        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>`
+      } else {
         error.innerHTML = message
       }
       return connect.disable(false)
@@ -63,6 +64,7 @@
       const networkId = await window.ethereum.request({ method: "net_version" })
       if (networkId == contractJSON.chain_id) {
         const web3 = new Web3(window.ethereum)
+        header.innerHTML = `<button class='mb-4 bg-blue-400 mt-6 text-white rounded-sm px-20 py-5 font-semibold'>Connected to: ${accounts[0]}</button>`
         return {
           connected: true,
           account: accounts[0],
@@ -99,7 +101,7 @@
     //get size and supply
     const size = await read(contract, account, "collectionSize", index)
     const supply = await read(contract, account, "collectionSupply", index)
-    const qty = size - supply;
+    const qty = size - supply
     quantity.innerHTML = `${qty} Left`
 
     if (qty < 1) {
@@ -117,6 +119,7 @@
       let txHash = ""
       try {
         txHash = await write(contract, account, "buy", `${web3.utils.toHex(cost)}`, index)
+        setSuccess(button, index)
       } catch (e) {
         error.innerHTML = e.message
         return button.disable(false)
@@ -124,16 +127,21 @@
     })
   }
 
+  const setSuccess = async (button, index) => {
+    const success = document.getElementById(`success-${index}`)
+    success.classList.add("bg-green-600")
+    success.innerHTML = "Transaction Successful"
+
+    setTimeout(async () => {
+      success.classList.remove("bg-green-600")
+      success.classList.add("bg-white")
+      success.innerHTML = "&nbsp;"
+      return button.disable(false)
+    }, 3000)
+  }
+
   const read = async (contract, account, method, ...args) => {
-    return await contract.methods[method](...args).call();
-    // return await window.ethereum.request({
-    //   method: "eth_call",
-    //   params: [{
-    //     to: contractJSON.address,
-    //     // from: account,
-    //     data: contract.methods[method](...args).encodeABI(),
-    //   }],
-    // })
+    return await contract.methods[method](...args).call()
   }
 
   const write = async (contract, account, method, value, ...args) => {
@@ -154,15 +162,15 @@
 
   const buyButtons = Array.from(document.getElementsByClassName("buy-button"))
   const perBuyFunction = async (btn) => {
-      const { web3, connected, message, account, contract } = await install()
-      if (!connected) {
-        error.innerHTML = message
-        return connect.disable(false)
-      }
+    const { web3, connected, message, account, contract } = await install()
+    if (!connected) {
+      error.innerHTML = message
+      return connect.disable(false)
+    }
 
-      for (let i = 0; i < 15; i++) {
-        initBuyBox(i + 1, web3, account, contract)
-      }
+    for (let i = 0; i < 15; i++) {
+      initBuyBox(i + 1, web3, account, contract)
+    }
   }
   buyButtons.forEach(async (buyBtn, index) => {
     buyBtn.addEventListener("click", perBuyFunction)
@@ -170,16 +178,15 @@
 
   const { web3, connected, message, account, contract } = await install()
   if (!connected) {
-      if(message === "Please change network to Polygon (MATIC)."){
-        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
-      }else{
-        error.innerHTML = message
-      }
+    if (message === "Please change network to Polygon (MATIC).") {
+      error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>`
+    } else {
+      error.innerHTML = message
+    }
     return connect.disable(false)
   }
 
   for (let i = 0; i < 15; i++) {
     initBuyBox(i + 1, web3, account, contract)
   }
-
 })()

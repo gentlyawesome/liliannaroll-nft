@@ -73,13 +73,13 @@
     },
     {
        "url":"./assets/images/preview-14-illustris.jpg",
-       "name":"Cheers",
+       "name":"Illustris",
        "price": "10",
        "left": "200"
     },
     {
        "url":"./assets/images/preview-13-cheers.jpg",
-       "name":"Illustris",
+       "name":"Cheers",
        "price": "10",
        "left": "200"
     },

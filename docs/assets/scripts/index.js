@@ -39,7 +39,7 @@
     const { web3, connected, message, account, contract } = await install()
     if (!connected) {
       if(message === "Please change network to Polygon (MATIC)."){
-        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://medium.com/stakingbits/setting-up-metamask-for-polygon-matic-network-838058f6d844">Polygon (MATIC).</a>` 
+        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://academy.binance.com/en/articles/how-to-add-polygon-to-metamask">Polygon (MATIC).</a>` 
       }else{
         error.innerHTML = message
       }

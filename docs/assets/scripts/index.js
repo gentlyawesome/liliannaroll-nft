@@ -16,7 +16,7 @@
         <li class="price text-gray-600">${collectible.price} Matic</li>
         <li class="qty text-gray-600">${collectible.left} Left</li>
       </ul>
-      <span class="bg-white text-white font-bold py-2" id="success-${index + 1}">&nbsp;</span>
+      <span class="bg-white text-white font-bold py-2 mt-2" id="success-${index + 1}">&nbsp;</span>
       <button class='bg-blue-400 text-white rounded-b-xl cursor-pointer px-20 py-5 font-semibold buy-button hover:bg-blue-500'>Buy</button>
     </div>
     `
@@ -119,7 +119,7 @@
       let txHash = ""
       try {
         txHash = await write(contract, account, "buy", `${web3.utils.toHex(cost)}`, index)
-        setSuccess(button, index)
+        setSuccess(button, index, txHash)
       } catch (e) {
         error.innerHTML = e.message
         return button.disable(false)
@@ -127,15 +127,12 @@
     })
   }
 
-  const setSuccess = async (button, index) => {
+  const setSuccess = async (button, index, txHash) => {
     const success = document.getElementById(`success-${index}`)
     success.classList.add("bg-green-600")
-    success.innerHTML = "Transaction Successful"
+    success.innerHTML = `<a class="font-semibold underline" href="https://polygonscan.com/tx/${txHash}" target="_blank">View Transaction</a>`
 
     setTimeout(async () => {
-      success.classList.remove("bg-green-600")
-      success.classList.add("bg-white")
-      success.innerHTML = "&nbsp;"
       return button.disable(false)
     }, 3000)
   }

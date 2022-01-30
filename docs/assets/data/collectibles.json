@@ -84,14 +84,14 @@
        "collectionId": 0
     },
     {
-       "url":"./assets/images/preview-14-illustris.jpg",
+       "url":"./assets/images/preview-13-cheers.jpg",
        "name":"Cheers",
        "price": "10",
        "left": "200",
        "collectionId": 4
     },
     {
-       "url":"./assets/images/preview-13-cheers.jpg",
+       "url":"./assets/images/preview-14-illustris.jpg",
        "name":"Illustris",
        "price": "10",
        "left": "200",

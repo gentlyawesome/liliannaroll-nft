@@ -5,22 +5,22 @@
   const contractJSON = JSON.parse(document.getElementById("contract").innerText)
 
   const container = document.getElementById("nft-container")
-  collectibles.filter(collectible => collectible.collectionId > 0 ).map(async (collectible) => {
-    container.innerHTML += `
-    <div class='flex flex-col w-full overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  m-10 text-center rounded-xl shadow-lg hover:shadow-2xl sm:w-64' id="item-${
-      collectible.collectibleId
-    }"> 
+  collectibles
+    .filter((collectible) => collectible.collectionId > 0)
+    .map(async (collectible) => {
+      container.innerHTML += `
+    <div class='flex flex-col w-full overflow-hidden bg-[#fcfcfc] backdrop-blur-sm bg-white/30  m-10 text-center rounded-xl shadow-lg hover:shadow-2xl sm:w-64' id="item-${collectible.collectionId}"> 
       <img class="w-full rounded-t-xl" src=${collectible.url} alt=${collectible.name} />
       <h1 class='mt-4 text-xl font-semibold'>${collectible.name}</h1>
       <ul class="flex flex-row justify-evenly mt-4 leading-relaxed">
         <li class="price text-gray-600">${collectible.price} Matic</li>
         <li class="qty text-gray-600">${collectible.left} Left</li>
       </ul>
-      <span class="bg-[#fcfcfc] text-white font-bold py-2 mt-2" id="success-${collectible.collectibleId}">&nbsp;</span>
+      <span class="bg-[#fcfcfc] text-white font-bold py-2 mt-2" id="success-${collectible.collectionId}">&nbsp;</span>
       <button class='bg-blue-400 text-white rounded-b-xl cursor-pointer px-20 py-5 font-semibold buy-button hover:bg-blue-500'>Buy</button>
     </div>
     `
-  })
+    })
 
   const header = document.getElementById("header")
   header.innerHTML += `
@@ -39,9 +39,9 @@
     connect.disable(true)
     const { web3, connected, message, account, contract } = await install()
     if (!connected) {
-      if(message === "Please change network to Polygon (MATIC)."){
-        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://academy.binance.com/en/articles/how-to-add-polygon-to-metamask">Polygon (MATIC).</a>` 
-      }else{
+      if (message === "Please change network to Polygon (MATIC).") {
+        error.innerHTML = `Please change network to <a class="underline text-blue-400 font-bold" href="https://academy.binance.com/en/articles/how-to-add-polygon-to-metamask">Polygon (MATIC).</a>`
+      } else {
         error.innerHTML = message
       }
       return connect.disable(false)

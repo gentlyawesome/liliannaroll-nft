@@ -104,11 +104,4 @@
        "left": "200",
        "collectionId": 2
     },
-    {
-       "url":"./assets/images/preview-16-mr-lol.jpg",
-       "name":"Mr Lol",
-       "price": "10",
-       "left": "200",
-       "collectionId": 1
-    }
  ]

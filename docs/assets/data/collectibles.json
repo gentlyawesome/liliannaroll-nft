@@ -1,20 +1,114 @@
 [
     {
-       "url":"./assets/images/preview-13-cheers.jpg",
-       "name":"Illustris",
-       "price": "10",
-       "left": "200"
+       "url":"./assets/images/preview-01-gentleman-bax.jpg",
+       "name":"Gentleman BAX",
+       "price": "42.918",
+       "left": "10",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-02-monsierurique.jpg",
+       "name":"Monsierurique",
+       "price": "42.918",
+       "left": "10",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-03-perla-whirlpool.jpg",
+       "name":"Perla Whirlpool",
+       "price": "40",
+       "left": "10",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-04-wunderkid.jpg",
+       "name":"Wunderkid",
+       "price": "40",
+       "left": "10",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-05-yeaboi.jpg",
+       "name":"Yeaboi",
+       "price": "40",
+       "left": "10",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-06-albus-lux.jpg",
+       "name":"Albus LUX",
+       "price": "20",
+       "left": "100",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-07-chekaroo.jpg",
+       "name":"Chekaroo",
+       "price": "20",
+       "left": "100",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-08-extranos.jpg",
+       "name":"Extranos",
+       "price": "20",
+       "left": "100",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-09-floofer.jpg",
+       "name":"Floofer",
+       "price": "20",
+       "left": "100",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-10-lily-elektra.jpg",
+       "name":"Lily Elektra",
+       "price": "20",
+       "left": "100",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-11-snooter.jpg",
+       "name":"Snooter",
+       "price": "20",
+       "left": "100",
+       "collectionId": 0
+    },
+    {
+       "url":"./assets/images/preview-12-valentina.jpg",
+       "name":"Valentina",
+       "price": "20",
+       "left": "100",
+       "collectionId": 0
     },
     {
        "url":"./assets/images/preview-14-illustris.jpg",
        "name":"Cheers",
        "price": "10",
-       "left": "200"
+       "left": "200",
+       "collectionId": 4
+    },
+    {
+       "url":"./assets/images/preview-13-cheers.jpg",
+       "name":"Illustris",
+       "price": "10",
+       "left": "200",
+       "collectionId":3 
     },
     {
        "url":"./assets/images/preview-15-pops.jpg",
        "name":"Pops",
        "price": "10",
-       "left": "200"
+       "left": "200",
+       "collectionId": 2
+    },
+    {
+       "url":"./assets/images/preview-16-mr-lol.jpg",
+       "name":"Mr Lol",
+       "price": "10",
+       "left": "200",
+       "collectionId": 1
     }
  ]

@@ -16,7 +16,7 @@
         <li class="price text-gray-600">${collectible.price} Matic</li>
         <li class="qty text-gray-600">${collectible.left} Left</li>
       </ul>
-      <span class="bg-white text-white font-bold py-2 mt-2" id="success-${index + 1}">&nbsp;</span>
+      <span class="bg-[#fcfcfc] text-white font-bold py-2 mt-2" id="success-${index + 1}">&nbsp;</span>
       <button class='bg-blue-400 text-white rounded-b-xl cursor-pointer px-20 py-5 font-semibold buy-button hover:bg-blue-500'>Buy</button>
     </div>
     `

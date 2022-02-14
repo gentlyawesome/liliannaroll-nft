@@ -37,49 +37,49 @@
     {
        "url":"./assets/images/preview-06-albus-lux.jpg",
        "name":"Albus LUX",
-       "price": "20",
+       "price": "25",
        "left": "100",
        "collectionId":11 
     },
     {
        "url":"./assets/images/preview-07-chekaroo.jpg",
        "name":"Chekaroo",
-       "price": "20",
+       "price": "25",
        "left": "100",
        "collectionId": 10 
     },
     {
        "url":"./assets/images/preview-08-extranos.jpg",
        "name":"Extranos",
-       "price": "20",
+       "price": "25",
        "left": "100",
        "collectionId": 9
     },
     {
        "url":"./assets/images/preview-09-floofer.jpg",
        "name":"Floofer",
-       "price": "20",
+       "price": "25",
        "left": "100",
        "collectionId": 8
     },
     {
        "url":"./assets/images/preview-10-lily-elektra.jpg",
        "name":"Lily Elektra",
-       "price": "20",
+       "price": "25",
        "left": "100",
        "collectionId": 7
     },
     {
        "url":"./assets/images/preview-11-snooter.jpg",
        "name":"Snooter",
-       "price": "20",
+       "price": "25",
        "left": "100",
        "collectionId": 6
     },
     {
        "url":"./assets/images/preview-12-valentina.jpg",
        "name":"Valentina",
-       "price": "20",
+       "price": "25",
        "left": "100",
        "collectionId": 5
     },

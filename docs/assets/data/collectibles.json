@@ -4,35 +4,35 @@
        "name":"Gentleman BAX",
        "price": "42.918",
        "left": "10",
-       "collectionId": 0
+       "collectionId": 16 
     },
     {
        "url":"./assets/images/preview-02-monsierurique.jpg",
        "name":"Monsierurique",
        "price": "42.918",
        "left": "10",
-       "collectionId": 0
+       "collectionId": 15 
     },
     {
        "url":"./assets/images/preview-03-perla-whirlpool.jpg",
        "name":"Perla Whirlpool",
        "price": "40",
        "left": "10",
-       "collectionId": 0
+       "collectionId": 14 
     },
     {
        "url":"./assets/images/preview-04-wunderkid.jpg",
        "name":"Wunderkid",
        "price": "40",
        "left": "10",
-       "collectionId": 0
+       "collectionId":13 
     },
     {
        "url":"./assets/images/preview-05-yeaboi.jpg",
        "name":"Yeaboi",
        "price": "40",
        "left": "10",
-       "collectionId": 0
+       "collectionId":12 
     },
     {
        "url":"./assets/images/preview-06-albus-lux.jpg",

@@ -2,14 +2,14 @@
     {
        "url":"./assets/images/preview-01-gentleman-bax.jpg",
        "name":"Gentleman BAX",
-       "price": "42.918",
+       "price": "40",
        "left": "10",
        "collectionId": 16 
     },
     {
        "url":"./assets/images/preview-02-monsierurique.jpg",
        "name":"Monsierurique",
-       "price": "42.918",
+       "price": "40",
        "left": "10",
        "collectionId": 15 
     },

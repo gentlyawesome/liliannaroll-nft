@@ -165,7 +165,7 @@
       return connect.disable(false)
     }
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 1; i < 16; i++) {
       initBuyBox(i + 1, web3, account, contract)
     }
   }
